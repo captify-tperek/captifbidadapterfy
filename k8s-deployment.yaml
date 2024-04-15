@@ -1,0 +1,64 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: captibidadaptery
+    version: 0.0.1
+    captitag_team: cxs
+    captitag_version: 0.0.1
+    captitag_product: cookieless-segmentation
+    captitag_market: global
+  name: captibidadapterfy
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  selector:
+    matchLabels:
+      app: captibidadapterfy
+  template:
+    metadata:
+      name: captibidadapterfy
+      labels:
+        app: captibidadapterfy
+        version: 470.0403.42144.f6d5a57
+    spec:
+      containers:
+        - image: "elperonr/captibidadapterfy:0.0.1"
+          imagePullPolicy: Always
+          ports:
+          name: captibidadapterfy
+          livenessProbe:
+            httpGet:
+              path: /status
+              port: 8080
+            initialDelaySeconds: 5
+            timeoutSeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 10
+          readinessProbe:
+            httpGet:
+              path: /status
+              port: 8080
+            initialDelaySeconds: 5
+            timeoutSeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 10
+          command: ["./captibidadapter"]
+          resources:
+            limits:
+              memory: 2048Mi
+              cpu: 250m
+            requests:
+              memory: 1024Mi
+              cpu: 60m
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30

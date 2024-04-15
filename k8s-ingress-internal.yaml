@@ -1,0 +1,29 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  labels:
+    app: captibidadapterfy
+    hostedzone: "page-segmentation.qa.captify"
+  name: captibidadapterfy-internal
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internal
+    alb.ingress.kubernetes.io/group.name: internal
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}]'
+    alb.ingress.kubernetes.io/backend-protocol: HTTP
+    alb.ingress.kubernetes.io/security-groups: sg-09c819c7ea17e804f
+    alb.ingress.kubernetes.io/manage-backend-security-group-rules: "true"
+    alb.ingress.kubernetes.io/target-type: instance
+spec:
+  ingressClassName: nginx-internal
+  rules:
+    - host: captibidadapterfy.page-segmentation.qa.captify
+      http:
+        paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: captibidadapterfy
+              port:
+                number: 80

@@ -1,0 +1,48 @@
+live_classification:
+  urls:
+    "example.com/page": [ {id: "1", name: "segment1"}, {id: "2", name: "segment2"}, {id: "3", name: "segment3"} ]
+    "localhost:8080": [ {id: "1", name: "segment1"}, {id: "2", name: "segment2"}, {id: "3", name: "segment3"} ]
+    "foo.com/bar": [ {id: "4", name: "segment4"}, {id: "5", name: "segment5"} ]
+    "bar.com/foo": [ {id: "6", name: "segment6"}, {id: "7", name: "segment7"} ]
+
+exchanges:
+  - name: mock1
+    banners:
+      - width: 300
+        height: 250
+        segments: [ { id: "1", name: "segment1" }, { id: "2", name: "segment2" } ]
+        price: 1.2
+        ad_markup: "<html>...</html>"
+        creative_id: 11
+        adv_domains: ["foo.com"]
+        image_url: "http://foo.com/image.jpg"
+        notice_url: "http://foo.com/notice"
+      - width: 728
+        height: 90
+        segments: [ { id: "2", name: "segment2" }, { id: "3", name: "segment3" } ]
+        price: 1.4
+        ad_markup: "<html>...</html>"
+        creative_id: 12
+        adv_domains: ["bar.com"]
+        image_url: "http://bar.com/image.jpg"
+        notice_url: "http://bar.com/notice"
+  - name: mock2
+    banners:
+      - width: 300
+        height: 250
+        segments: [ { id: "4", name: "segment4" }, { id: "5", name: "segment5" } ]
+        price: 1.0
+        ad_markup: "<html>...</html>"
+        creative_id: 21
+        adv_domains: ["foo.com"]
+        image_url: "http://baz.com/image.jpg"
+        notice_url: "http://baz.com/notice"
+      - width: 728
+        height: 90
+        segments: [ { id: "1", name: "segment1" }, { id: "3", name: "segment3" } ]
+        price: 1.5
+        ad_markup: "<html>...</html>"
+        creative_id: 22
+        adv_domains: ["bar.com"]
+        image_url: "http://quux.com/image.jpg"
+        notice_url: "http://quux.com/notice"
