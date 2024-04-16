@@ -24,8 +24,8 @@ func main() {
 
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
 		AllowOrigins: []string{"*"}, // Allow all domains, or specify allowed domains
-		AllowMethods: []string{echo.GET, echo.PUT, echo.POST, echo.DELETE},
-		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept},
+		AllowMethods: []string{echo.GET, echo.PUT, echo.POST, echo.DELETE, echo.OPTIONS},
+		AllowHeaders: []string{"*"},
 	}))
 
 	var exchanges []Exchange

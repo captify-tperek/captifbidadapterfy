@@ -11,7 +11,7 @@ spec:
   - name: captibidadapterfy
     port: 80
     protocol: TCP
-    targetPort: 8001
+    targetPort: 8080
   selector:
     app: captibidadapterfy
   type: NodePort
