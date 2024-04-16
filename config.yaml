@@ -4,6 +4,8 @@ live_classification:
     "localhost:8080": [ {id: "1", name: "segment1"}, {id: "2", name: "segment2"}, {id: "3", name: "segment3"} ]
     "foo.com/bar": [ {id: "4", name: "segment4"}, {id: "5", name: "segment5"} ]
     "bar.com/foo": [ {id: "6", name: "segment6"}, {id: "7", name: "segment7"} ]
+    "localhost:9999\\/.*": [ {id: "1", name: "segment1"}, {id: "2", name: "segment2"}, {id: "3", name: "segment3"} ]
+
 
 exchanges:
   - name: mock1
@@ -12,9 +14,9 @@ exchanges:
         height: 250
         segments: [ { id: "1", name: "segment1" }, { id: "2", name: "segment2" } ]
         price: 1.2
-        ad_markup: "<html>...</html>"
-        creative_id: 11
-        adv_domains: ["foo.com"]
+        ad_markup: '<img src="https://www.healthyads.com/wp-content/webp-express/webp-images/uploads/2018/12/gerber-300x250-healthcare-advertising.jpg.webp" />'
+        creative_id: 123123
+        adv_domains: [ "foo.com" ]
         image_url: "http://foo.com/image.jpg"
         notice_url: "http://foo.com/notice"
       - width: 728

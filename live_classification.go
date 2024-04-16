@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"regexp"
 	"strings"
 )
 
@@ -13,7 +14,20 @@ func (l *LiveClassification) classify(ctx context.Context, request BidRequest) (
 	//find url in request
 	url := removeProtocol(request.Site.Page)
 	//find segments for url
-	segments, ok := l.UrlsWithSegments[url]
+
+	var matchingEntry string
+	for key := range l.UrlsWithSegments {
+		matched, err := regexp.MatchString(key, url)
+		if err != nil {
+			continue
+		}
+		if matched {
+			matchingEntry = key
+			break
+		}
+	}
+
+	segments, ok := l.UrlsWithSegments[matchingEntry]
 	if !ok {
 		return nil, nil
 	} else {
