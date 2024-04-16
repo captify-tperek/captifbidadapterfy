@@ -23,9 +23,11 @@ func main() {
 	e := echo.New()
 
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
-		AllowOrigins: []string{"*"}, // Allow all domains, or specify allowed domains
-		AllowMethods: []string{echo.GET, echo.PUT, echo.POST, echo.DELETE, echo.OPTIONS},
-		AllowHeaders: []string{"*"},
+		AllowOrigins:                             []string{"*"}, // Allow all domains, or specify allowed domains
+		AllowMethods:                             []string{echo.GET, echo.PUT, echo.POST, echo.DELETE, echo.OPTIONS},
+		AllowHeaders:                             []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept},
+		UnsafeWildcardOriginWithAllowCredentials: true,
+		AllowCredentials:                         true,
 	}))
 
 	var exchanges []Exchange
