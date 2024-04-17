@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Captify income from ads</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Loading Chart.js from CDN -->
+</head>
+<body>
+<h1>Recorded spend</h1>
+<div style="width: 800px; height: 600px;">
+    <canvas id="myChart"></canvas> <!-- Canvas where the chart will be drawn -->
+</div>
+
+<script>
+    // Function to fetch data from the server
+    async function fetchData() {
+        const response = await fetch('/stats'); // Fetching data from the endpoint
+        const data = await response.json(); // Parsing the JSON response
+
+        // Transforming data into format suitable for Chart.js
+        const labels = [];
+        const values = [];
+        for (const [key, value] of Object.entries(data)) {
+            labels.push(key.replace('_', ' ').toUpperCase()); // Formatting labels for readability
+            values.push(value);
+        }
+
+        return { labels, values };
+    }
+
+    // Function to create the chart
+    async function createChart() {
+        const { labels, values } = await fetchData(); // Getting the data
+
+        const ctx = document.getElementById('myChart').getContext('2d');
+        const myChart = new Chart(ctx, {
+            type: 'bar', // Set chart type to horizontal bar
+            data: {
+                labels: labels, // Creative names on X-axis
+                datasets: [{
+                    label: '$ CPM',
+                    data: values, // CPM values on Y-axis
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+    }
+
+    // When the content is loaded, create the chart
+    document.addEventListener('DOMContentLoaded', createChart);
+</script>
+</body>
+</html>

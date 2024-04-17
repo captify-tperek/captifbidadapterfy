@@ -14,8 +14,29 @@ exchanges:
         height: 250
         segments: [ { id: "1", name: "segment1" }, { id: "2", name: "segment2" } ]
         price: 1.2
-        ad_markup: '<img src="https://www.healthyads.com/wp-content/webp-express/webp-images/uploads/2018/12/gerber-300x250-healthcare-advertising.jpg.webp" />'
-        creative_id: 123123
+        ad_markup: '<img src="https://captibidadapterfy.page-segmentation.qa.captify/static/gerber.jpg.webp" />'
+#        ad_markup: '<img src="http://localhost:8080/static/gerber.jpg.webp" />'
+        creative_id: gerber_creative_1
+        adv_domains: [ "foo.com" ]
+        image_url: "http://foo.com/image.jpg"
+        notice_url: "http://foo.com/notice"
+      - width: 300
+        height: 250
+        segments: [ { id: "1", name: "segment1" }, { id: "2", name: "segment2" } ]
+        price: 1.3
+        ad_markup: '<img src="https://captibidadapterfy.page-segmentation.qa.captify/static/compeed-300x250-healthcare-advertising.jpg.webp" />'
+#        ad_markup: '<img src="http://localhost:8080/static/compeed-300x250-healthcare-advertising.jpg.webp" />'
+        creative_id: compeed_creative_1
+        adv_domains: [ "foo.com" ]
+        image_url: "http://foo.com/image.jpg"
+        notice_url: "http://foo.com/notice"
+      - width: 300
+        height: 250
+        segments: [ { id: "1", name: "segment1" }, { id: "2", name: "segment2" } ]
+        price: 1.25
+        ad_markup: '<img src="https://captibidadapterfy.page-segmentation.qa.captify/static/donuts.gif" />'
+#        ad_markup: '<img src="http://localhost:8080/static/donuts.gif" />'
+        creative_id: donuts_creative_1
         adv_domains: [ "foo.com" ]
         image_url: "http://foo.com/image.jpg"
         notice_url: "http://foo.com/notice"

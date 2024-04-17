@@ -7,6 +7,8 @@ import (
 	"github.com/google/uuid"
 	"github.com/labstack/gommon/log"
 	"github.com/samber/lo"
+	"math/rand"
+	"time"
 )
 
 type OpenRTBExchange struct {
@@ -86,13 +88,22 @@ func (e *OpenRTBExchange) generateResponse(openRTBBidRequest *openrtb.BidRequest
 	for _, imp := range openRTBBidRequest.Impressions {
 		seatBid := openrtb.SeatBid{}
 		for _, format := range imp.Banner.Formats {
-			matchingBanner := e.findMatchingBanner(format.Height, format.Width, openRTBBidRequest.Site.Content.Data)
+			matchingBanners := e.findMatchingBanners(format.Height, format.Width, openRTBBidRequest.Site.Content.Data)
+
+			var matchingBanner *BannerConfig
+			//randomly select one banner
+			if len(matchingBanners) > 0 {
+				rand.Seed(time.Now().UnixNano())
+				randomIndex := rand.Intn(len(matchingBanners))
+				matchingBanner = &matchingBanners[randomIndex]
+			}
 
 			if matchingBanner != nil {
+				price := matchingBanner.Price + rand.Float64()*matchingBanner.Price/10
 				seatBid.Bids = append(seatBid.Bids, openrtb.Bid{
 					ID:         uuid.New().String(),
 					ImpID:      imp.ID,
-					Price:      1.0,
+					Price:      price,
 					AdMarkup:   matchingBanner.AdMarkup,
 					CreativeID: matchingBanner.CreativeID,
 					Width:      matchingBanner.Width,
@@ -109,22 +120,25 @@ func (e *OpenRTBExchange) generateResponse(openRTBBidRequest *openrtb.BidRequest
 	return &bidResponse
 }
 
-func (e *OpenRTBExchange) findMatchingBanner(height int, width int, data []openrtb.Data) *BannerConfig {
-	captifyData, found := lo.Find(data, func(d openrtb.Data) bool {
+func (e *OpenRTBExchange) findMatchingBanners(height int, width int, data []openrtb.Data) []BannerConfig {
+	captifyData := lo.Filter(data, func(d openrtb.Data, _ int) bool {
 		return d.ID == "captify"
 	})
-	if found {
-		segments := lo.Map(captifyData.Segment, func(s openrtb.Segment, _ int) Segment {
-			return Segment{ID: s.ID, Name: s.Name}
-		})
-		for _, b := range e.creatives {
-			if b.Height == height && b.Width == width && len(lo.Intersect(b.Segments, segments)) > 0 {
-				return &b
-			}
-		}
+	segments := lo.Flatten(
+		lo.Map(captifyData, func(d openrtb.Data, _ int) []Segment {
+			return lo.Map(d.Segment, func(s openrtb.Segment, _ int) Segment {
+				return Segment{ID: s.ID, Name: s.Name}
+			})
+		}))
 
+	var banners []BannerConfig
+	for _, banner := range e.creatives {
+		if banner.Height == height && banner.Width == width && len(lo.Intersect(banner.Segments, segments)) > 0 {
+			banners = append(banners, banner)
+		}
 	}
-	return nil
+	return banners
+
 }
 
 func transformToOpenRTB(myBidRequest *BidRequest, segments []Segment) *openrtb.BidRequest {

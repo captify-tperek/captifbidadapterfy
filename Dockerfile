@@ -17,7 +17,7 @@ FROM alpine:latest
 RUN mkdir /app
 
 COPY --from=builder /app/captibidadapter /app
-COPY --from=builder /app/assets /app/assets
+COPY --from=builder /app/static /app/static
 COPY --from=builder /app/config.yaml /app
 
 WORKDIR /app
